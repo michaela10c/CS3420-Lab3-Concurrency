@@ -74,7 +74,7 @@ void process_start (void){
     process_begin();
 }
 
-unsigned int * process_select(unsigned int* cursp){
+unsigned int* process_select(unsigned int* cursp){
     // if there is a current_process, pop it from queue
     if(current_process != NULL){
         process_t* temp = NULL;
@@ -89,7 +89,7 @@ unsigned int * process_select(unsigned int* cursp){
             free(temp);
         }
     }
-    
+
     // retrieve next process
     current_process = process_queue;
 
