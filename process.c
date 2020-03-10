@@ -3,6 +3,7 @@
 #include <MK64F12.h>
 
 struct process_state {
+    int stack_size;
     unsigned int* stack_pointer;
 	struct process_state* next_process;
 };
@@ -28,7 +29,7 @@ void push_process(process_t* to_push){
 }
 
 void pop_process(process_t* to_pop){
-    .// if empty, return NULL
+    // if empty, return NULL
     if(process_queue == NULL){
         to_pop = NULL;
     }
@@ -52,6 +53,7 @@ int process_create (void (*f)(void), int n){
         // allocate space for new_process and push it on to process_queue
         process_t* new_process = malloc(sizeof(process_t));
         new_process->stack_pointer = new_stack_pointer;
+        new_process->stack_size = n;
         push_process(new_process);
         return 0;
     }
@@ -83,9 +85,10 @@ unsigned int* process_select(unsigned int* cursp){
         if(cursp != NULL){
             // so push it back on process_queue
             push_process(temp);
-
+        }
         else{
             // otherwise free the space
+            process_stack_free(temp->stack_pointer, temp->stack_size);
             free(temp);
         }
     }
