@@ -26,7 +26,8 @@ void long_process(void){
 
 int main (void){
     // initialize clock and LED
-    int clock = SystemCoreClock;
+    int clock;
+    clock = SystemCoreClock;
     LED_Initialize();
 
     // create 2 short processes
